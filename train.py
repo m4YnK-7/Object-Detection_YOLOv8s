@@ -1,35 +1,79 @@
 from ultralytics import YOLO
 import os
 
-EPOCHS = 16
-MOSAIC = 0.2
-OPTIMIZER = 'AdamW'
-MOMENTUM = 0.2
-LR0 = 0.001
-LRF = 0.0001
-SINGLE_CLS = False
-IMGSZ = 128
+config = {
+            # Training parameters
+            'epochs': 10,  # Increased for better convergence
+            'batch_size': 16,  # Adjust based on GPU memory
+            'imgsz': 256,   # Increased from 128 for better detection
+            'device': 'cpu',
+            
+            # Optimizer settings
+            'optimizer': 'AdamW',
+            'lr0': 0.001,
+            'lrf': 0.01,    # Higher final learning rate
+            'momentum': 0.937,
+            'weight_decay': 0.0005,
+            
+            # Augmentation (critical for challenging conditions)
+            'hsv_h': 0.015,     # Hue augmentation for lighting variations
+            'hsv_s': 0.7,       # Saturation for lighting conditions
+            'hsv_v': 0.4,       # Value/brightness for lighting
+            'degrees': 15.0,    # Rotation for different camera angles
+            'translate': 0.2,   # Translation augmentation
+            'scale': 0.9,       # Scale variation for different distances
+            'shear': 2.0,       # Shear transformation
+            'perspective': 0.0003,  # Perspective transformation
+            'flipud': 0.5,      # Vertical flip (useful in zero-gravity)
+            'fliplr': 0.5,      # Horizontal flip
+            'mosaic': 0.8,      # Increased mosaic for occlusion handling
+            'mixup': 0.10,      # Mixup augmentation for robustness
+            'copy_paste': 0.3,  # Copy-paste augmentation for occlusions
+            
+            # NMS settings
+            'iou': 0.7,         # IoU threshold for NMS
+            'conf': 0.25,       # Confidence threshold
+            
+            # Model architecture
+            'dropout': 0.1,     # Dropout for regularization
+}
 
 if __name__ == '__main__': 
     this_dir = os.path.dirname(__file__)
     os.chdir(this_dir)
-    model = YOLO(os.path.join(this_dir, "yolov8s.pt"))
-    
+    model = YOLO(os.path.join(this_dir, "yolov8m.pt"))
+
     results = model.train(
-        data=os.path.join(this_dir, "yolo_params.yaml"), 
-        epochs=10,
-        device="cpu",
-        single_cls=SINGLE_CLS,
-        mosaic= MOSAIC,
-        optimizer= OPTIMIZER, 
-        lr0 = LR0, 
-        lrf = LRF, 
-        momentum=MOMENTUM,
-        imgsz = IMGSZ,
-    )
+            data=os.path.join(this_dir, "yolo_params.yaml"),
+            epochs=config['epochs'],
+            batch=config['batch_size'],
+            imgsz=config['imgsz'],
+            device=config['device'],
+            
+            # Optimizer settings
+            optimizer=config['optimizer'],
+            lr0=config['lr0'],
+            lrf=config['lrf'],
+            momentum=config['momentum'],
+            weight_decay=config['weight_decay'],
+                     
+                
+            # Validation settings
+            iou=config['iou'],
+            conf=config['conf'],
+            
+            # Additional settings
+            dropout=config['dropout'],
+            save_period=8,  # Save checkpoint every 10 epochs
+            cache="disk",      # Cache images for faster training
+            workers=8,       # Number of dataloader workers
+            exist_ok=True,
+            pretrained=True,
+            verbose=True,
+            close_mosaic=4
+        )
 
-
-
+    
     # tuning = model.tune(
     #     data="yolo_params.yaml",           # Path to your dataset config
     #     epochs=5 ,                  # Training epochs per trial

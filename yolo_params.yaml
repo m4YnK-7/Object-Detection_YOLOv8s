@@ -1,5 +1,5 @@
-train: data/train/images
-val: data/val/images
-test: data/test
+train: sample_data/train/images
+val: sample_data/val/images
+test: sample_data/test
 nc: 3
 names: ['FireExtinguisher', 'ToolBox', 'OxygenTank']

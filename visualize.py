@@ -7,7 +7,7 @@ class YoloVisualizer:
     MODE_VAL = 1
     def __init__(self, dataset_folder):
         self.dataset_folder = dataset_folder
-        classes_file = os.path.join(dataset_folder, "classes.txt")
+        classes_file = os.path.join(dataset_folder,"utils" ,"classes.txt")
         with open(classes_file, "r") as f:
             self.classes = f.read().splitlines()
         self.classes = {i: c for i, c in enumerate(self.classes)}
@@ -15,11 +15,11 @@ class YoloVisualizer:
     
     def set_mode(self, mode=MODE_TRAIN):
         if mode != self.MODE_TRAIN:
-            self.images_folder = os.path.join(self.dataset_folder,"data", "train", "images")
-            self.labels_folder = os.path.join(self.dataset_folder, "data","train", "labels")
+            self.images_folder = os.path.join(self.dataset_folder,"sample_data", "train", "images")
+            self.labels_folder = os.path.join(self.dataset_folder, "sample_data","train", "labels")
         else:
-            self.images_folder = os.path.join(self.dataset_folder, "data","val", "images")
-            self.labels_folder = os.path.join(self.dataset_folder, "data","val", "labels")
+            self.images_folder = os.path.join(self.dataset_folder, "sample_data","val", "images")
+            self.labels_folder = os.path.join(self.dataset_folder, "sample_data","val", "labels")
             
         self.num_images = len(os.listdir(self.images_folder))
         num_labels = len(os.listdir(self.labels_folder))

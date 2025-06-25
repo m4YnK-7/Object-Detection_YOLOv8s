@@ -31,7 +31,7 @@ if __name__ == '__main__':
 
     this_dir = Path(__file__).parent
     os.chdir(this_dir)
-    with open(this_dir / 'yolo_params.yaml', 'r') as file:
+    with open(this_dir  /'yolo_params.yaml', 'r') as file:
         data = yaml.safe_load(file)
         if 'test' in data and data['test'] is not None:
             images_dir = Path(data['test']) / 'images'
@@ -72,7 +72,7 @@ if __name__ == '__main__':
                 choice = int(choice)
         idx = choice
 
-    model_path = detect_path / train_folders[idx] / "weights" / "best.pt"
+    model_path = detect_path / train_folders[idx] / "weights" / "best_model.pt"
     model = YOLO(model_path)
 
     # Directory with images
@@ -95,6 +95,7 @@ if __name__ == '__main__':
 
     print(f"Predicted images saved in {images_output_dir}")
     print(f"Bounding box labels saved in {labels_output_dir}")
-    data = this_dir / 'yolo_params.yaml'
+    data = this_dir  / 'yolo_params.yaml'
+    # data = this_dir /'data' / 'test' / 'images'
     print(f"Model parameters saved in {data}")
-    metrics = model.val(data=data, split="test")
+    metrics = model.val(data=data)
