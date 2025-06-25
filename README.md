@@ -7,6 +7,7 @@ Download dataset : https://storage.googleapis.com/duality-public-share/Datasets/
 ![Test results](https://github.com/m4YnK-7/Object-Detection_YOLOv8s/blob/main/runs/detect/val_best/val_batch2_pred.jpg)
 
   <span><img src="https://github.com/m4YnK-7/Object-Detection_YOLOv8s/blob/main/runs/detect/val_best/F1_curve.png" alt="Test F1 score" width="400"/></span>
+  <span><p>   </p></span>
   <span><img src="https://github.com/m4YnK-7/Object-Detection_YOLOv8s/blob/main/runs/detect/val_best/PR_curve.png" alt="Test PR score" width="400"/></span>
 
 
